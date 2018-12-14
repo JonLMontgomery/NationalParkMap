@@ -1,0 +1,38 @@
+---
+title: "national_park_map"
+author: "JL"
+date: "12/12/2018"
+output: html_document
+---
+
+```{r install packages and load libraries}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+install.packages("tidyverse")
+install.packages("sf")
+install.packages("scales")
+library(scales)
+library(tidyverse)
+library(sf)
+install.packages(c("rgdal","leaflet"))
+library(rgdal)
+library(leaflet)
+```
+
+```{r}
+
+leaflet() %>%
+  addTiles(group = "OSM") %>%
+  #addProviderTiles(providers$Esri.WorldImagery, group = "Esri World Imagery") %>%
+  setView(lng = -119.720844, lat = 34.433947, zoom = 7) %>%
+  #addMarkers(lng = -76.505206, lat = 38.9767231, popup = "I am here!", group = "SESYNC") %>%
+  #addLayersControl(baseGroups = c("OSM", "Esri World Imagery"), 
+  #                 overlayGroups = c("SESYNC"),
+  #                 options = layersControlOptions(collapsed = FALSE)) %>%
+  addWMSTiles(
+    "http://gstore.unm.edu/apps/rgis/datasets/7bbe8af5-029b-4adf-b06c-134f0dd57226/services/ogc/wms",
+    layers = "National Park Boundaries",
+    options = WMSTileOptions(format = "image/png", transparent = TRUE),
+    attribution = "Weather data © 2012 IM Nexrad"
+  )
+```
+
